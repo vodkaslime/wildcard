@@ -2,7 +2,7 @@ package wildcard
 
 import "strings"
 
-func WildCardMatch(pattern string, s string) (bool, error) {
+func Match(pattern string, s string) (bool, error) {
 	// Edge cases.
 	if pattern == "*" {
 		return true, nil

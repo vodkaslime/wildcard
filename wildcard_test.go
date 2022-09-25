@@ -12,7 +12,7 @@ type testCase struct {
 	m bool
 }
 
-func TestWildCardMatch(t *testing.T) {
+func TestMatch(t *testing.T) {
 
 	testCases := []testCase{
 		{"", "", true},
@@ -32,7 +32,7 @@ func TestWildCardMatch(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		m, err := WildCardMatch(tc.p, tc.s)
+		m, err := Match(tc.p, tc.s)
 		assert.Equal(t, m, tc.m)
 		assert.Nil(t, err)
 	}
