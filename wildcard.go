@@ -2,9 +2,21 @@ package wildcard
 
 import "strings"
 
-func Match(pattern string, s string) (bool, error) {
+type Matcher struct {
+	S byte
+	M byte
+}
+
+func NewMatcher() *Matcher {
+	return &Matcher{
+		S: '?',
+		M: '*',
+	}
+}
+
+func (m *Matcher) Match(pattern string, s string) (bool, error) {
 	// Edge cases.
-	if pattern == "*" {
+	if pattern == string(m.M) {
 		return true, nil
 	}
 
@@ -17,7 +29,8 @@ func Match(pattern string, s string) (bool, error) {
 
 	// If pattern does not contain wildcard chars, just compare the strings
 	// to avoid extra memory allocation.
-	if !strings.Contains(pattern, "*") && !strings.Contains(pattern, ".") {
+	if !strings.Contains(pattern, string(m.M)) &&
+		!strings.Contains(pattern, string(m.S)) {
 		return pattern == s, nil
 	}
 
@@ -32,7 +45,7 @@ func Match(pattern string, s string) (bool, error) {
 	dp[0][0] = true
 
 	for i := 0; i < lp; i++ {
-		if pattern[i] == '*' {
+		if pattern[i] == m.M {
 			dp[i+1][0] = dp[i][0]
 		} else {
 			dp[i+1][0] = false
@@ -49,9 +62,9 @@ func Match(pattern string, s string) (bool, error) {
 			pc := pattern[i]
 			sc := s[j]
 			switch pattern[i] {
-			case '*':
+			case m.M:
 				dp[i+1][j+1] = dp[i][j] || dp[i][j+1] || dp[i+1][j]
-			case '.':
+			case m.S:
 				dp[i+1][j+1] = dp[i][j]
 			default:
 				if pc == sc {
