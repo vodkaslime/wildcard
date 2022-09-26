@@ -2,13 +2,13 @@
 
 A simple golang customizable [wildcard](https://en.wikipedia.org/wiki/Wildcard_character) matcher. Golang has pretty well built regex functionalities, but it does not have basic wildcard matcher that works as nicely. Therefore this package serves the need to check whether a string matches a pattern in the rule of wildcard.
 
-To keep simplicity, the matcher support only two rules:
+To keep simplicity, the matcher supports only two rules:
 - `"?"` for a single char.
 - `"*"` for any number (including zero) of chars.
 
 Charset like `"[A-Za-z]"` or SQL style wild cards like `%` are not supported.
 
-## Usage
+## usage
 
 To import the package, `go get` the module.
 
@@ -37,7 +37,7 @@ func main() {
 
 ```
 
-The default wildcard chars are `"?"` for single chars and `"*"` for multiple chars. To customize this rule, tune the `S` field or `M` field accordingly.
+The default wildcard chars are `"?"` for single chars and `"*"` for multiple chars. To customize this rule, tune the `S` field and `M` field accordingly.
 
 For example to use `"."` as single char wildcard symbol:
 
