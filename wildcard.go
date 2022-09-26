@@ -1,7 +1,5 @@
 package wildcard
 
-import "strings"
-
 type Matcher struct {
 	S byte
 	M byte
@@ -12,6 +10,21 @@ func NewMatcher() *Matcher {
 		S: '?',
 		M: '*',
 	}
+}
+
+func (m *Matcher) isWildPattern(pattern string) bool {
+	for i := range pattern {
+		c := pattern[i]
+		if c == m.M {
+			return true
+		}
+
+		if c == m.S {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (m *Matcher) Match(pattern string, s string) (bool, error) {
@@ -29,8 +42,7 @@ func (m *Matcher) Match(pattern string, s string) (bool, error) {
 
 	// If pattern does not contain wildcard chars, just compare the strings
 	// to avoid extra memory allocation.
-	if !strings.Contains(pattern, string(m.M)) &&
-		!strings.Contains(pattern, string(m.S)) {
+	if !m.isWildPattern(pattern) {
 		return pattern == s, nil
 	}
 
